@@ -1,0 +1,313 @@
+body{
+    color: var(--vscode-editor-foreground);
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-editor-font-size);
+    background: var(--vscode-editor-background);
+}
+
+.container{
+    padding:15px;
+    box-sizing: border-box;
+}
+
+.container.request-items{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    width:50%;
+    padding:0;
+    border-right:1px solid var(--vscode-editorGroup-border);
+    overflow-y: auto;
+}
+
+.container.request-inspector{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    width:50%;
+}
+
+.request-item{
+    width:100%;
+    padding:10px;
+    box-sizing: border-box;
+    border-bottom:1px solid var(--vscode-editorGroup-border);
+    user-select: none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    flex-direction: row;
+    column-gap: 15px;
+    height:35px;
+}
+
+.request-item:hover{
+    background: var(--vscode-list-hoverBackground);
+}
+
+.request-item.selected{
+    background: var(--vscode-list-inactiveSelectionBackground);
+}
+
+.endpoint{
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-top: -3px;
+}
+
+.fullURL{
+    word-wrap: break-word;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width:calc( 100% - 85px );
+}
+
+.method{
+    font-weight: bold;
+    font-size:var(--vscode-editor-font-size);
+    width:70px;
+    text-align: center;
+    margin-top:0px;
+    border-radius: 5px;
+}
+
+*[type="POST"] .method{
+    color: var(--vscode-charts-blue);
+}
+
+*[type="GET"] .method{
+    color: var(--vscode-charts-green);
+}
+
+*[type="PUT"] .method{
+    color: var(--vscode-charts-yellow);
+}
+
+*[type="DELETE"] .method{
+    color: var(--vscode-charts-red);
+}
+
+.detail-item{
+    float:right;
+    align-self: center;
+    color:var(--vscode-editorLineNumber-foreground);
+    transform:scale(0.8);
+}
+
+.status.detail-item{
+    width:30px !important;
+    text-align: center;
+}
+
+.status::before{
+    content:attr(status);
+}
+
+.status[status='0']::before{
+    content:"🗲";
+    font-size:1.4em;
+    color:var(--vscode-editorMarkerNavigationError-background);
+}
+
+.inspector-title{
+    display:flex;
+    flex-wrap: wrap;
+    padding-top:15px;
+    width: calc( 100% + 30px );
+    margin-left:-15px;
+    margin-top:-15px;
+    background: var(--vscode-titleBar-activeBackground);
+    /* border-bottom:1px solid var(--vscode-editorGroup-border); */
+}
+
+.inspector-title .title{
+    font-size:2em;
+    font-weight: 300;
+    margin-bottom:10px;
+    padding-left:15px;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width:calc( 100% - 30px );
+}
+
+.inspector-title .method{
+    width:40px;
+    text-align: left;
+    padding-right:10px;
+    padding-left:15px;
+    user-select: none;
+}
+
+.inspector-title .tab-group{
+    width:100%;
+    display:flex;
+    width:calc( 100% + 30px );
+    margin-top:15px;
+    margin-bottom:-15px;
+    background:var(--vscode-editorGroupHeader-tabsBackground);
+}
+
+.tab-group .tab{
+    padding:10px;
+    user-select: none;
+    cursor:pointer;
+    background: var(--vscode-list-hoverBackground);
+}
+
+.tab-group .tab.selected{
+    background: var(--vscode-editor-background);
+}
+
+.container.request-inspector .page{
+    margin-top:30px;
+    display:flex;
+    flex-direction: column;
+}
+
+.section{
+    margin-bottom:10px;
+}
+
+.section .section-title{
+    font-size:1.5em;
+    margin-bottom:10px;
+    user-select: none;
+    cursor: pointer;
+    width:fit-content;
+    padding:5px;
+    padding-right:10px;
+    margin-left:-33px;
+    border-radius: 5px;
+    transition:margin-left ease 0.2s;
+}
+
+.section.hide .section-title{
+    margin-left:-10px;
+    margin-bottom:0px;
+    transition:margin-left ease 0.2s;
+}
+
+.section .section-title:hover{
+    margin-left:0;
+    background: var(--vscode-list-hoverBackground);
+    transition:margin-left ease 0.2s, background ease 0.2s;
+}
+
+.section .section-title::before{
+    content:"▼";
+    font-size: 0.8em;
+    padding-left: 7px;
+    box-sizing: border-box;
+    opacity:0;
+    width:28px;
+    display:inline-block;
+    transform:rotate(0deg);
+    transition:opacity ease 0.2s, transform ease 0.2s;
+}
+
+.section.hide .section-title::before{
+    opacity:0.5;
+    transform:rotate(-90deg);
+    transition:opacity ease 0.2s, transform ease 0.2s;
+}
+
+.section .section-title:hover::before{
+    opacity:0.5;
+    transition:opacity ease 0.2s, transform ease 0.2s;
+}
+
+.code-block{
+    font-family: monospace;
+    padding:10px;
+    border-radius: 5px;
+    border:1px solid var(--vscode-editorGroup-border);
+}
+
+.page{
+    position:absolute;
+    top:-9999px;
+    left:-9999px;
+}
+
+.page.show{
+    position:unset;
+}
+
+.section.hide *:not(.section-title){
+    position:absolute;
+    top:-9999px;
+    left:-9999px;
+}
+
+.data-row{
+    margin-bottom:8px;
+}
+
+.data-row::before{
+    content: attr(keyName);
+    padding-right:8px;
+    display:inline-block;
+    font-weight: bold;
+    color:var(--vscode-editorLineNumber-foreground);
+}
+
+.templates{
+    display:none;
+}
+
+.request-inspector.container:not(.ready) *:not(.inspector-label){
+    display:none;
+}
+
+.request-inspector.container.ready .inspector-label{
+    display:none;
+}
+
+.inspector-label{
+    user-select: none;
+    position: fixed;
+    width: 50%;
+    text-align: center;
+    top: 50%;
+    right: 0;
+    font-size: 3em;
+    font-weight: 200;
+    opacity: 0.2;
+    margin-top: -45px;
+}
+
+.item-loader{
+    user-select: none;
+    position: fixed;
+    width:40px;
+    height:3px;
+    top:0;
+    left:0;
+    background-color: var(--vscode-textLink-activeForeground);
+    animation: load 2s linear infinite;
+}
+
+.item-loader.hide{
+    display:none;
+}
+
+@keyframes load {
+    from {
+      left:calc( 0% - 40px );
+    }
+  
+    to {
+        left:100%;
+    }
+  }

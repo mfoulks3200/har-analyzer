@@ -1,0 +1,145 @@
+<div class="request-items container">
+    
+</div>
+
+<div class="item-loader"></div>
+
+<div class="request-inspector container">
+    <div class="inspector-label">Inspector</div>
+    <div class="inspector-title" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">
+        <div class="title" data="endpoint">/example/endpoint</div>
+        <div class="method">POST</div>
+        <div class="fullURL" data="fullURL">https://example.com/example/endpoint</div>
+        <div class="tab-group">
+            <div class="tab">Example Tab</div>
+            <div class="tab selected">Example Tab</div>
+            <div class="tab">Example Tab</div>
+            <div class="tab">Example Tab</div>
+        </div>
+    </div>
+
+    <div class="page" name="General">
+        <div class="section">
+            <div class="section-title">Basic Info</div>
+            <div class="data-row" data="fullURL" keyName="Request URL">https://example.com/example/endpoint</div>
+            <div class="data-row" data="referer" keyName="Referrer">https://google.com</div>
+            <div class="data-row" data="obj.serverIPAddress" keyName="Remote Address">127.0.0.1</div>
+            <br />
+            <div class="data-row" data="obj.startedDateTime" keyName="Timestamp">May 25th 2022, 23:34:14.312 GMT-4</div>
+            <div class="data-row" data="obj.time" keyName="Duration">2m 34s 103ms</div>
+            <br />
+            <div class="data-row" data="obj.response.status" keyName="Status"></div>
+            <div class="data-row" data="obj.response.statusText" keyName="Status Message"></div>
+            <div class="data-row" data="obj.request.method" keyName="Method">GET</div>
+        </div>
+    </div>
+
+    <div class="page" name="Request">
+        <div class="section">
+            <div class="section-title">Parameters</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Payload</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Headers</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Cookies</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+    </div>
+
+    <div class="page" name="Response">
+        <div class="section">
+            <div class="section-title">Response Body</div>
+            <div class="code-block">
+                {
+                    "example": "example",
+                    "example": "example",
+                    "example": "example",
+                    "test":{
+                        "example": "example"
+                    }
+                }
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Headers</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+        <div class="section">
+            <div class="section-title">Cookies</div>
+            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+        </div>
+    </div>
+
+    <div class="page" name="Timing">
+        <div class="section">
+            <div class="section-title">Example Section</div>
+            <div class="code-block">
+                {
+                    "example": "example",
+                    "example": "example",
+                    "example": "example",
+                    "test":{
+                        "example": "example"
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="page" name="Initiation">
+        <div class="section">
+            <div class="section-title">Example Section</div>
+            <div class="code-block">
+                {
+                    "example": "example",
+                    "example": "example",
+                    "example": "example",
+                    "test":{
+                        "example": "example"
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="templates">
+        <div class="request-item" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">
+            <div class="method">POST</div>
+            <div class="endpoint">/example/endpoint</div>
+            <div class="time detail-item">902ms</div>
+            <div class="status detail-item"></div>
+        </div>
+    </div>
+</div>
+<script>
+
+    Array.prototype.sample = function(){
+        return this[Math.floor(Math.random()*this.length)];
+    }
+
+    // var methods = ["POST", "GET", "PUT", "DELETE"];
+    // var responseCodes = ["200", "404", "403", "500"];
+    // for (var i = 0; i < 50; i++) {
+    //     var newItem = $(".request-item").first().clone();
+    //     var method = methods.sample();
+    //     var responseCode = responseCodes.sample();
+    //     var time = Math.round(Math.random()*1000);
+    //     newItem.attr("type", method);
+    //     newItem.attr("time", time);
+    //     newItem.attr("status", responseCode);
+    //     newItem.find(".method").text(method);
+    //     newItem.find(".time").text(time+"ms");
+    //     newItem.find(".status").text(responseCode);
+    //     newItem.appendTo(".request-items");
+    // }
+
+    
+    setupGUI();
+</script>

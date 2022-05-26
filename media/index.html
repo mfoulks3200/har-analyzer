@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>HAR Analyzer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="testStyle.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+        
+        <div class="include"></div>
+
+        <script>
+            $(document).ready(function(){
+                $(".include").load("analyzer.html", function(){
+                    loadHARByURL("reddit.har")
+                }); 
+            });
+        </script>
+    </body>
+</html>
