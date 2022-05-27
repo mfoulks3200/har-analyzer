@@ -3,7 +3,7 @@
 	"displayName": "HAR Analyzer",
 	"description": "Open and analyze HAR files natively",
 	"version": "0.0.1",
-	"publisher": "Matt Foulks",
+	"publisher": "MattFoulks",
 	"homepage": "https://github.com/mfoulks3200/har-analyzer",
 	"license": "GPL-3",
 	"repository": {
