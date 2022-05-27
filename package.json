@@ -10,14 +10,12 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:har-analyzer.helloWorld",
         "onCommand:har-analyzer.analyze"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
-			{"title": "Hello World", "command": "har-analyzer.helloWorld"},
-			{"title": "Analyze", "command": "har-analyzer.analyze"}
+			{"title": "Analyze", "command": "har-analyzer.analyze", "category": "Har Analyzer"}
 		]
 	},
 	"scripts": {

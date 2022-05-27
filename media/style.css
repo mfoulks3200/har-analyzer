@@ -170,9 +170,16 @@ body{
 }
 
 .container.request-inspector .page{
-    margin-top:30px;
-    display:flex;
+    margin-top: 15px;
+    display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    height: calc( 100% - 105px );
+    margin-left: -15px;
+    width: calc( 100% + 30px );
+    padding: 15px;
+    padding-top: 10px;
+    box-sizing: border-box;
 }
 
 .section{
@@ -231,7 +238,55 @@ body{
     font-family: monospace;
     padding:10px;
     border-radius: 5px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
     border:1px solid var(--vscode-editorGroup-border);
+}
+
+.code-block.formatted{
+    white-space: pre;
+}
+
+.code-block.formatted:not(.collapsed){
+    overflow-x: scroll;
+    white-space: pre;
+    text-overflow: clip;
+}
+
+.code-block.collapsable.collapsed{
+    max-height: 300px;
+    user-select:none;
+    cursor: pointer;
+}
+
+.code-block.collapsable::before{
+    content: "▼";
+    line-height: 10em;
+    font-size: 1.7em;
+    text-align: center;
+    display: block;
+    width: calc( 100% + 20px );
+    margin-left: -10px;
+    margin-top: -150px;
+    height: 150px;
+    transform: translate(0px, 315px);
+    background: linear-gradient(0deg, var(--vscode-editor-background) 0%, rgba(0,212,255,0) 100%);
+    transition: line-height ease 0.2s;
+    z-index: 999;
+    cursor: pointer;
+    position: fixed;
+    top:-9999px;
+    left:-9999px;
+}
+
+.code-block.collapsable.collapsed::before{
+    position: unset;
+}
+
+.code-block.collapsable.collapsed:hover::before{
+    line-height: 10.5em;
+    transition: line-height ease 0.2s;
 }
 
 .page{
@@ -246,12 +301,16 @@ body{
 
 .section.hide *:not(.section-title){
     position:absolute;
-    top:-9999px;
-    left:-9999px;
+    top:-9999999px;
+    left:-9999999px;
 }
 
 .data-row{
-    margin-bottom:8px;
+    margin-bottom: 8px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left:20px;
 }
 
 .data-row::before{
@@ -260,6 +319,7 @@ body{
     display:inline-block;
     font-weight: bold;
     color:var(--vscode-editorLineNumber-foreground);
+    margin-left:-20px;
 }
 
 .templates{
@@ -285,6 +345,20 @@ body{
     font-weight: 200;
     opacity: 0.2;
     margin-top: -45px;
+}
+
+.subscript{
+    display: block;
+    padding-top: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.7em;
+    opacity: 0.4;
+    user-select: none;
+}
+
+.img-preview{
+    max-width: 100%;
 }
 
 .item-loader{

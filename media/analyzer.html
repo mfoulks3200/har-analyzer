@@ -30,82 +30,65 @@
             <br />
             <div class="data-row" data="obj.response.status" keyName="Status"></div>
             <div class="data-row" data="obj.response.statusText" keyName="Status Message"></div>
-            <div class="data-row" data="obj.request.method" keyName="Method">GET</div>
+            <div class="data-row" data="obj.request.method" keyName="Method"></div>
         </div>
     </div>
 
     <div class="page" name="Request">
-        <div class="section">
+        <div class="section" require-data="obj.request.queryString">
             <div class="section-title">Parameters</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div data-table="obj.request.queryString"></div>
         </div>
-        <div class="section">
+        <div class="section" require-data="obj.request.postData.text">
             <div class="section-title">Payload</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div class="code-block" data="obj.request.postData.text"></div>
         </div>
         <div class="section">
             <div class="section-title">Headers</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div data-table="obj.request.headers"></div>
         </div>
-        <div class="section">
+        <div class="section" require-data="obj.request.cookies">
             <div class="section-title">Cookies</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div data-table="obj.request.cookies"></div>
         </div>
     </div>
 
     <div class="page" name="Response">
-        <div class="section">
-            <div class="section-title">Response Body</div>
-            <div class="code-block">
-                {
-                    "example": "example",
-                    "example": "example",
-                    "example": "example",
-                    "test":{
-                        "example": "example"
-                    }
-                }
-            </div>
+        <div class="section" require-data="content">
+            <div class="section-title">Content</div>
+            <div class="data-row"  keyName="Mime Type" data="mimeType"></div>
+            <div class="data-row"  style="padding-bottom:10px;" keyName="Content Size" require-data="obj.response.content.size" data="obj.response.content.size"></div>
+            <div class="code-block" data="content" require-value="mimeType=text/*|application/*"></div>
+            <div class="subscript"  require-value="mimeType=text/*|application/*">(double click to expand and shrink)</div>
+            <img class="img-preview" data-to="src=content" require-value="mimeType=image/*" />
         </div>
-        <div class="section">
+        <div class="section" require-data="obj.response.headers">
             <div class="section-title">Headers</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div data-table="obj.response.headers"></div>
         </div>
-        <div class="section">
+        <div class="section" require-data="obj.response.cookies">
             <div class="section-title">Cookies</div>
-            <div class="data-row"><span class="data-key">Example Key: </span><span class="data-value">Example Value</span></div>
+            <div data-table="obj.response.cookies"></div>
         </div>
     </div>
 
     <div class="page" name="Timing">
         <div class="section">
-            <div class="section-title">Example Section</div>
-            <div class="code-block">
-                {
-                    "example": "example",
-                    "example": "example",
-                    "example": "example",
-                    "test":{
-                        "example": "example"
-                    }
-                }
-            </div>
+            <div class="section-title">Timings</div>
+            <div class="data-row" data="obj.timings._blocked_queueing" keyName="Queuing"></div>
+            <div class="data-row" data="obj.timings.blocked" keyName="Blocked"></div>
+            <div class="data-row" data="obj.timings.connect" keyName="Connect"></div>
+            <div class="data-row" data="obj.timings.dns" keyName="DNS"></div>
+            <div class="data-row" data="obj.timings.receive" keyName="Recieve"></div>
+            <div class="data-row" data="obj.timings.send" keyName="Send"></div>
+            <div class="data-row" data="obj.timings.ssl" keyName="SSL"></div>
+            <div class="data-row" data="obj.timings.wait" keyName="Wait"></div>
         </div>
     </div>
 
-    <div class="page" name="Initiation">
+    <div class="page" name="Initiation" disabled>
         <div class="section">
-            <div class="section-title">Example Section</div>
-            <div class="code-block">
-                {
-                    "example": "example",
-                    "example": "example",
-                    "example": "example",
-                    "test":{
-                        "example": "example"
-                    }
-                }
-            </div>
+            <div class="section-title">Initiation</div>
         </div>
     </div>
 
