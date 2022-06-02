@@ -22,9 +22,9 @@ function activate(context) {
 	let analyzeCommand = vscode.commands.registerCommand('har-analyzer.analyze', function () {
 		// The code you place here will be executed every time your command is executed
 
-		if(vscode.window.visibleTextEditors[0] != null){
-			HARpath = vscode.window.visibleTextEditors[0].document.uri;
-			docText = vscode.window.visibleTextEditors[0].document.getText();
+		if(vscode.window.activeTextEditor != null){
+			HARpath = vscode.window.activeTextEditor.document.uri;
+			docText = vscode.window.activeTextEditor.document.getText();
 		}else{
 			slow = true;
 			vscode.window.showErrorMessage('Large File Detected (>5MB), cannot load due to VS Code limitations.');
