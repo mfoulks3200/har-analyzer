@@ -51,13 +51,15 @@ body{
     background: var(--vscode-list-inactiveSelectionBackground);
 }
 
-.endpoint{
+.endpoint {
     width: 100%;
     word-wrap: break-word;
     word-break: break-all;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    direction: rtl !important;
+    text-align: left;
     margin-top: -3px;
 }
 
@@ -112,9 +114,34 @@ body{
 }
 
 .status[status='0']::before{
-    content:"🗲";
+    content:"⚠️";
     font-size:1.4em;
-    color:var(--vscode-editorMarkerNavigationError-background);
+    /*color:var(--vscode-editorMarkerNavigationError-background);*/
+}
+
+.request-item[highlight="yellow"] .status{
+    color: var(--vscode-charts-yellow);
+}
+
+.request-item[highlight="red"] .status{
+    color: var(--vscode-charts-red);
+}
+
+table.stack{
+    table-layout: fixed;
+    width: 100%;
+}
+
+.stack-frame-file div{
+    word-wrap: break-word;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.stack-frame-file{
+    width:65%;
 }
 
 .inspector-title{
@@ -133,6 +160,8 @@ body{
     font-weight: 300;
     margin-bottom:10px;
     padding-left:15px;
+    direction: rtl !important;
+    text-align: left;
     word-wrap: break-word;
     word-break: break-all;
     text-overflow: ellipsis;
@@ -352,7 +381,7 @@ body{
     padding-top: 5px;
     width: 100%;
     text-align: center;
-    font-size: 0.7em;
+    font-size: 0.85em;
     opacity: 0.4;
     user-select: none;
 }
@@ -374,6 +403,89 @@ body{
 
 .item-loader.hide{
     display:none;
+}
+
+.inspector-timing-container{
+    display:flex;
+}
+
+.inspector-timing-labels{
+    padding-right:10px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.inspector-timing-bars{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    border-left:1px solid var(--vscode-editorGroup-border);
+    border-right:1px solid var(--vscode-editorGroup-border);
+}
+
+.inspector-timing-labels .data-row{
+    height:20px;
+    width:100px;
+    text-align:right;
+    margin-bottom:0;
+}
+
+.inspector-timing-labels .data-row::before{
+  float:left;
+}
+
+.inspector-timing-bars .data-bar{
+    height:20px;
+    background:#1133AA;
+    width:0%;
+    margin-left:0%;
+}
+
+.inspector-timing-bars .data-bar[keyName="Queuing"]{
+    background:var(--vscode-interactive-inactiveCodeBorder);
+    border:1px solid var(--vscode-editorGroup-border);
+    border-left:0;
+}
+
+.inspector-timing-bars .data-bar[keyName="Blocked"]{
+    background:var(--vscode-charts-red);
+}
+
+.inspector-timing-bars .data-bar[keyName="Connect"]{
+    background:var(--vscode-charts-green);
+}
+
+.inspector-timing-bars .data-bar[keyName="DNS"]{
+    background:var(--vscode-charts-blue);
+}
+
+.inspector-timing-bars .data-bar[keyName="Recieve"]{
+    background:var(--vscode-charts-purple);
+}
+
+.inspector-timing-bars .data-bar[keyName="Send"]{
+    background:var(--vscode-charts-yellow);
+}
+
+.inspector-timing-bars .data-bar[keyName="SSL"]{
+    background:var(--vscode-terminal-ansiBrightBlack);
+}
+
+.inspector-timing-bars .data-bar[keyName="Wait"]{
+    background:var(--vscode-gitDecoration-addedResourceForeground);
+}
+
+.stack-frame-function{
+    padding-right:15px;
+    font-weight: bold;
+    color:var(--vscode-editorLineNumber-foreground);
+    width:15%;
+}
+
+.stack-frame-sID, .stack-frame-location{
+    width:10%;
 }
 
 @keyframes load {

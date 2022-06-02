@@ -8,7 +8,7 @@
     <div class="inspector-label">Inspector</div>
     <div class="inspector-title" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">
         <div class="title" data="endpoint">/example/endpoint</div>
-        <div class="method">POST</div>
+        <div class="method" data="method">POST</div>
         <div class="fullURL" data="fullURL">https://example.com/example/endpoint</div>
         <div class="tab-group">
             <div class="tab">Example Tab</div>
@@ -58,8 +58,8 @@
             <div class="section-title">Content</div>
             <div class="data-row"  keyName="Mime Type" data="mimeType"></div>
             <div class="data-row"  style="padding-bottom:10px;" keyName="Content Size" require-data="obj.response.content.size" data="obj.response.content.size"></div>
-            <div class="code-block" data="content" require-value="mimeType=text/*|application/*"></div>
-            <div class="subscript"  require-value="mimeType=text/*|application/*">(double click to expand and shrink)</div>
+            <div class="code-block" require-value="mimeType=text/*|application/*"></div>
+            <div class="subscript open-new-tab"  require-value="mimeType=text/*|application/*">(double click to open in a new tab)</div>
             <img class="img-preview" data-to="src=content" require-value="mimeType=image/*" />
         </div>
         <div class="section" require-data="obj.response.headers">
@@ -75,22 +75,50 @@
     <div class="page" name="Timing">
         <div class="section">
             <div class="section-title">Timings</div>
-            <div class="data-row" data="obj.timings._blocked_queueing" keyName="Queuing"></div>
-            <div class="data-row" data="obj.timings.blocked" keyName="Blocked"></div>
-            <div class="data-row" data="obj.timings.connect" keyName="Connect"></div>
-            <div class="data-row" data="obj.timings.dns" keyName="DNS"></div>
-            <div class="data-row" data="obj.timings.receive" keyName="Recieve"></div>
-            <div class="data-row" data="obj.timings.send" keyName="Send"></div>
-            <div class="data-row" data="obj.timings.ssl" keyName="SSL"></div>
-            <div class="data-row" data="obj.timings.wait" keyName="Wait"></div>
+            <div class="inspector-timing-container">
+                <div class="inspector-timing-labels">
+                    <div class="data-row" data="obj.timings._blocked_queueing" round="3" keyName="Queuing"></div>
+                    <div class="data-row" data="obj.timings.blocked" round="3" keyName="Blocked"></div>
+                    <div class="data-row" data="obj.timings.connect" round="3" keyName="Connect"></div>
+                    <div class="data-row" data="obj.timings.dns" round="3" keyName="DNS"></div>
+                    <div class="data-row" data="obj.timings.receive" round="3" keyName="Recieve"></div>
+                    <div class="data-row" data="obj.timings.send" round="3" keyName="Send"></div>
+                    <div class="data-row" data="obj.timings.ssl" round="3" keyName="SSL"></div>
+                    <div class="data-row" data="obj.timings.wait" round="3" keyName="Wait"></div>
+                    <div class="data-row"  keyName="Total" round="3" data="obj.time"></div>
+                </div>
+                <div class="inspector-timing-bars" totalTime="0">
+                    <div class="data-bar" data="obj.timings._blocked_queueing" keyName="Queuing"></div>
+                    <div class="data-bar" data="obj.timings.blocked" keyName="Blocked"></div>
+                    <div class="data-bar" data="obj.timings.connect" keyName="Connect"></div>
+                    <div class="data-bar" data="obj.timings.dns" keyName="DNS"></div>
+                    <div class="data-bar" data="obj.timings.receive" keyName="Recieve"></div>
+                    <div class="data-bar" data="obj.timings.send" keyName="Send"></div>
+                    <div class="data-bar" data="obj.timings.ssl" keyName="SSL"></div>
+                    <div class="data-bar" data="obj.timings.wait" keyName="Wait"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="page" name="Initiation" disabled>
+    <div class="page" name="Initiation">
         <div class="section">
             <div class="section-title">Initiation</div>
+            <div class="data-row" data="obj._initiator.type" keyName="Type"></div>
+            <div class="data-row" data="obj._initiator.url" require-data="obj._initiator.url" keyName="URL"></div>
+        </div>
+        
+        <div class="section" require-data="obj._initiator.stack.callFrames">
+            <div class="section-title">Stack</div>
+            <table class="stack">
+                <tr>
+                    <td>function()</td>
+                    <td>desktop_polymer.js (3701:334)</td>
+                </tr>
+            </table>
         </div>
     </div>
+</div>
 
     <div class="templates">
         <div class="request-item" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">

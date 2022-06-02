@@ -1,6 +1,11 @@
 var har;
 var reqs = [];
+var selectedIndex = -1;
 var selectedReq;
+
+var handledKeystroke = false;
+var keystrokeTimeout = true;
+const vscode = acquireVsCodeApi();
 
 function setupGUI(){
     $(".tab-group").html("");
@@ -22,11 +27,53 @@ function setupGUI(){
     });
 
     $(".request-item").off().on("click", function(){
-        $(".request-item.selected").removeClass("selected");
-        $(this).addClass("selected");
-        selectReq(reqs[$(this).attr("index")]);
-        console.log(reqs[$(this).attr("index")]);
+        selectReq($(this).attr("index"));
     });
+
+    document.addEventListener('keydown', (e) => {
+        if(keystrokeTimeout){
+            keystrokeTimeout = false;
+            setTimeout(function(){
+                handledKeystroke = false;
+                keystrokeTimeout = true;
+            }, 100);
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        e.preventDefault();
+        if (e.code === "ArrowUp" && !handledKeystroke){
+            if(selectedIndex == -1){
+                selectedIndex = reqs.length - 1;
+                selectReq(reqs.length-1);
+                handledKeystroke = true;
+            }else{
+                if(selectedIndex != 0){
+                    selectedIndex--;
+                    selectReq(selectedIndex);
+                    handledKeystroke = true;
+                }
+            }
+        }
+        if (e.code === "ArrowDown" && !handledKeystroke){
+            if(selectedIndex == -1){
+                selectedIndex = 0;
+                selectReq(0);
+                handledKeystroke = true;
+            }else{
+                if(selectedIndex < reqs.length-1){
+
+                    selectedIndex++;
+                    selectReq(selectedIndex);
+                    handledKeystroke = true;
+                }
+            }
+        }
+        $(".request-item[index='"+selectedIndex+"']").get(0).scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+        });
+      });
 }
 
 function getNested(path) {
@@ -42,11 +89,43 @@ function getNested(path) {
     return obj;
   }
 
+function round(num, place) {
+    return +(Math.round(num + "e+"+place)  + "e-"+place);
+}
+
 function selectReq(index){
-    selectedReq = index;
-    $("*[data]").each(function(){
-        console.log($(this).attr("data"));
+    selectedIndex = index;
+    selectedReq = reqs[index];
+    $(".request-item.selected").removeClass("selected");
+    $(".request-item[index='"+index+"']").addClass("selected");
+    $(".inspector-title").attr("type", selectedReq.method);
+    $(".inspector-title").attr("endpoint", selectedReq.endpoint);
+    $(".inspector-title").attr("time", selectedReq.time);
+    $(".inspector-title").attr("status", selectedReq.status);
+    $("*[data]:not([round])").each(function(){
         $(this).html(getNested($(this).attr("data")).toString().toHtmlEntities());
+    });
+    $("*[data][round]").each(function(){
+        $(this).html(round(getNested($(this).attr("data")),$(this).attr("round")));
+    });
+    $(".inspector-timing-bars").attr("totalTime", 0);
+    $(".inspector-timing-bars .data-bar").each(function(){
+        if($(this).html() > 0){
+            $(this).parent().attr("totalTime", (+$(this).parent().attr("totalTime"))+(+$(this).html()));
+        }
+        $(this).attr("time",$(this).html());
+        $(this).html("");
+    });
+    var current = 0;
+    $(".inspector-timing-bars .data-bar").each(function(){
+        var total = +$(this).parent().attr("totalTime");
+        var time = +$(this).attr("time");
+        if(time > 0){
+            $(this).attr("style","width:"+((time/total)*100)+"%;margin-left:"+((current/total)*100)+"%;");
+            current += time;
+        }else{
+            $(this).attr("style","");
+        }
     });
     $("*[data-table]").html("");
     $("*[data-table]").each(function(){
@@ -70,7 +149,6 @@ function selectReq(index){
     $("*[require-value]").each(function(){
         var components = $(this).attr("require-value").split("=");
         var value = getNested(components[0]);
-        console.log(components[1]+" "+value);
         if(new RegExp(components[1]).test(value)){
             $(this).show();
         }else{
@@ -91,21 +169,39 @@ function selectReq(index){
         }else{
             $(this).removeClass("formatted");
         }
-        if($(this).attr("data") != null && getNested($(this).attr("data")).length > 10000){
-            console.log(getNested($(this).attr("data")).length);
-            $(this).addClass("collapsable").addClass("collapsed");
-            $(this).html($(this).html().substring(0,5000));
-        }else{
-            $(this).removeClass("collapsable").removeClass("collapsed");
-        }
+        // if(selectedReq != null && selectedReq.content.length > 10000){
+        //     $(this).addClass("collapsable").addClass("collapsed");
+        //     $(this).html(selectedReq.contentShort);
+        // }else{
+        //     $(this).removeClass("collapsable").removeClass("collapsed");
+        //     $(this).html(selectedReq.content);
+        // }
+        $(this).html(selectedReq.contentShort.toString().toHtmlEntities());
     });
     
-    $(".code-block").off().on("dblclick", function(){
-        if($(this).hasClass("collapsable")){
-            toggleBlockCollapse($(this));
-            $(this).get().scrollTop = 0;
-        }
+    $(".open-new-tab").off().on("dblclick", function(){
+        vscode.postMessage({
+            action: "openNewTab",
+            text: selectedReq.content,
+            lang: selectedReq.mimeType.split("\/")[1]
+        });
     });
+
+    $(".stack").html("");
+    if(selectedReq.obj._initiator.type == "script"){
+        for(var i = 0; i < selectedReq.obj._initiator.stack.callFrames.length; i++){
+            var frame = selectedReq.obj._initiator.stack.callFrames[i];
+            const re = new RegExp('(?:.+\/)([^\/?]+)', 'gm');
+            var URLMatch = re.exec(frame.url);
+            var file = URLMatch == null ? "" : URLMatch[1];
+            $(".stack").append(`<tr>
+                <td class="stack-frame-function">`+(frame.functionName.length == 0 ? "(anonymous)" : frame.functionName)+`</td>
+                <td class="stack-frame-sID">`+frame.scriptId+`</td>
+                <td class="stack-frame-location">(`+frame.lineNumber+":"+frame.columnNumber+`)</td>
+                <td class="stack-frame-file"><div>`+file+`</div></td>
+            </tr>`);
+        }
+    }
 
     $(".request-inspector").addClass("ready");
 }
@@ -116,7 +212,7 @@ function toggleBlockCollapse(block){
         $(block).html(getNested($(block).attr("data")).toString().toHtmlEntities());
     }else{
         block.addClass("collapsed");
-        $(block).html(getNested($(block).attr("data")).toString().toHtmlEntities().substring(0,5000));
+        $(block).html(getNested($(block).attr("data")+"Short").toString().toHtmlEntities());
     }
 }
 
@@ -204,7 +300,6 @@ function loadHARByURL(harURL){
 
 function loadHAR(harText){
     har = JSON.parse(harText);
-    console.log(har);
     for(var i=0; i<har.log.entries.length; i++){
         addRequestItem(har.log.entries[i]);
     }
@@ -233,7 +328,6 @@ function addRequestItem(reqItem){
                 content = "data:"+reqItem.response.content.mimeType.split("/")[1]+";base64,"+reqItem.response.content.text;
             }else{
                 formatted = true;
-                console.log(format(content, reqItem.response.content.mimeType));
             }
         }
         content = format(content, reqItem.response.content.mimeType);
@@ -248,6 +342,7 @@ function addRequestItem(reqItem){
         "status": reqItem.response.status+" "+reqItem.response.statusText,
         "index": reqs.length,
         "content":content,
+        "contentShort":content.substring(0,5000),
         "mimeType": reqItem.response.content.mimeType,
         "formatted":formatted,
         "obj": reqItem
@@ -262,6 +357,14 @@ function addRequestGUIItem(entity){
     newItem.attr("time", entity.obj.time);
     newItem.attr("endpoint", entity.endpoint);
     newItem.attr("status", entity.obj.response.status);
+    newItem.attr("index", entity.index);
+    if(entity.obj.response.status !== 200){
+        if(entity.obj.response.status >= 400){
+            newItem.attr("highlight", "red");
+        }else{
+            newItem.attr("highlight", "yellow");
+        }
+    }
     newItem.attr("index", entity.index);
     newItem.find(".time").text(Math.round(entity.obj.time)+"ms");
     newItem.find(".status").attr("status", entity.obj.response.status);
@@ -283,6 +386,20 @@ function addRequestGUIItem(entity){
     newItem.find(".endpoint").text(entity.endpoint);
     newItem.appendTo(".request-items");
 }
+
+window.addEventListener('message', event => {
+
+    const message = event.data; // The JSON data our extension sent
+
+    console.log("Loading HAR")
+    loadHAR(message.HARText);
+});
+
+$(document).ready(function(){
+    vscode.postMessage({
+        action: "loadHAR"
+    });
+});
 
 String.prototype.toHtmlEntities = function() {
     return this.replace(/./gm, function(s) {

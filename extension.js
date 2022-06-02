@@ -3,6 +3,8 @@
 const vscode = require('vscode');
 
 var HARpath;
+var docText;
+var slow = false;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -20,7 +22,14 @@ function activate(context) {
 	let analyzeCommand = vscode.commands.registerCommand('har-analyzer.analyze', function () {
 		// The code you place here will be executed every time your command is executed
 
-		HARpath = vscode.window.activeTextEditor.document.uri;
+		if(vscode.window.visibleTextEditors[0] != null){
+			HARpath = vscode.window.visibleTextEditors[0].document.uri;
+			docText = vscode.window.visibleTextEditors[0].document.getText();
+		}else{
+			slow = true;
+			vscode.window.showErrorMessage('Large File Detected (>5MB), cannot load due to VS Code limitations.');
+			return;
+		}
 
 		createWindow(context);
 	});
@@ -69,6 +78,8 @@ function getWebviewContent(panel, context) {
 	vscode.workspace.openTextDocument(markupPath).then((document) => {
 		let text = document.getText();
 
+		let slowMethod = slow ? `<script>loadHARByURL(\`${harUri}\`);</script>` : "";
+
 		panel.webview.html = `<!DOCTYPE html>
 				<html lang="en">
 				<head>
@@ -80,11 +91,26 @@ function getWebviewContent(panel, context) {
 					<script src="${jqUri}"></script>
 					<script src="${scriptUri}"></script>
 					${text}
-					<script>
-						loadHARByURL(\`${harUri}\`);
-					</script>
+					${slowMethod}
 				</body>
 				</html>`;
+
+		
+		panel.webview.onDidReceiveMessage(
+			message => {
+				if(message.action == "openNewTab"){
+					var doc = vscode.workspace.openTextDocument({
+						content: message.text
+					});
+					vscode.window.showTextDocument(doc);
+				}
+				if(message.action == "loadHAR"){
+					panel.webview.postMessage({ command: 'loadHAR', HARText: docText });
+				}
+			},
+			undefined,
+			context.subscriptions
+			);
 	});
   }
 
