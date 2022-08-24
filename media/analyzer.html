@@ -40,8 +40,12 @@
             <div data-table="obj.request.queryString"></div>
         </div>
         <div class="section" require-data="obj.request.postData.text">
-            <div class="section-title">Payload</div>
+            <div class="section-title">Payload Text</div>
             <div class="code-block" data="obj.request.postData.text"></div>
+        </div>
+        <div class="section" require-data="obj.request.postData.params">
+            <div class="section-title">Payload Parameters</div>
+            <div data-table="obj.request.postData.params"></div>
         </div>
         <div class="section">
             <div class="section-title">Headers</div>
@@ -58,7 +62,7 @@
             <div class="section-title">Content</div>
             <div class="data-row"  keyName="Mime Type" data="mimeType"></div>
             <div class="data-row"  style="padding-bottom:10px;" keyName="Content Size" require-data="obj.response.content.size" data="obj.response.content.size"></div>
-            <div class="code-block" require-value="mimeType=text/*|application/*"></div>
+            <div class="code-block shorten" require-value="mimeType=text/*|application/*"></div>
             <div class="subscript open-new-tab"  require-value="mimeType=text/*|application/*">(double click to open in a new tab)</div>
             <img class="img-preview" data-to="src=content" require-value="mimeType=image/*" />
         </div>

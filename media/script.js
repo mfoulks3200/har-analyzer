@@ -103,6 +103,8 @@ function selectReq(index){
     $(".inspector-title").attr("time", selectedReq.time);
     $(".inspector-title").attr("status", selectedReq.status);
     $("*[data]:not([round])").each(function(){
+        console.log("replace "+$(this).attr("data"))
+        console.log(getNested($(this).attr("data")).toString().toHtmlEntities())
         $(this).html(getNested($(this).attr("data")).toString().toHtmlEntities());
     });
     $("*[data][round]").each(function(){
@@ -162,7 +164,7 @@ function selectReq(index){
         $(this).attr(components[0], value);
     });
 
-    $(".code-block").each(function(){
+    $(".code-block.shorten").each(function(){
         $(this).scrollTop(0);
         if(selectedReq.formatted){
             $(this).addClass("formatted");
