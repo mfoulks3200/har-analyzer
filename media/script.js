@@ -1,11 +1,66 @@
 var har;
 var reqs = [];
-var selectedIndex = -1;
 var selectedReq;
+var visibleIndicies = [];
 
 var handledKeystroke = false;
 var keystrokeTimeout = true;
 const vscode = acquireVsCodeApi();
+
+function runSearch(){
+    while(visibleIndicies.length > 0) {
+        visibleIndicies.pop();
+    }
+    var i = -1;
+    $(".request-item").each(function(){
+        i++;
+        if($(this).attr("type") == "GET" && (!$(".method-filter.get").hasClass("selected") && $(".method-filter").hasClass("selected"))){
+            $(this).hide();
+            return;
+        }
+        if($(this).attr("type") == "POST" && (!$(".method-filter.post").hasClass("selected") && $(".method-filter").hasClass("selected"))){
+            $(this).hide();
+            return;
+        }
+        if($(this).attr("type") == "PUT" && (!$(".method-filter.put").hasClass("selected") && $(".method-filter").hasClass("selected"))){
+            $(this).hide();
+            return;
+        }
+        if($(this).attr("type") == "DELETE" && (!$(".method-filter.delete").hasClass("selected") && $(".method-filter").hasClass("selected"))){
+            $(this).hide();
+            return;
+        }
+        if($(this).attr("type") == "PATCH" && (!$(".method-filter.patch").hasClass("selected") && $(".method-filter").hasClass("selected"))){
+            $(this).hide();
+            return;
+        }
+        if($(".search").val().length > 0 && !$(this).attr("endpoint").includes($(".search").val())){
+            $(this).hide();
+            return;
+        }
+        $(this).show();
+        visibleIndicies.push(i);
+    });
+}
+
+function getNextValue(thisIndex, higher){
+    if(higher){
+        for (i=0; i < visibleIndicies.length; i++){
+            if (visibleIndicies[i]>thisIndex){
+                return visibleIndicies[i];
+            }
+        }
+    }else{
+        for (i=visibleIndicies.length-1; i >= 0; i--){
+            if (visibleIndicies[i]<thisIndex){
+                return visibleIndicies[i];
+            }
+        }
+    }
+    return -1;
+}
+
+let selectedIndex = -1;
 
 function setupGUI(){
     $(".tab-group").html("");
@@ -20,6 +75,15 @@ function setupGUI(){
         $(this).addClass("selected");
         $(".page").removeClass("show");
         $(".page[name='"+$(this).attr("name")+"']").addClass("show");
+    });
+
+    $(".method-filter").off().on("click", function(){
+        $(this).toggleClass("selected");
+        runSearch();
+    });
+
+    $(".search").off().on('input',function(e){
+        runSearch();
     });
     
     $(".section-title").off().on("click", function(){
@@ -40,9 +104,14 @@ function setupGUI(){
         }
     });
 
+    runSearch();
+
     document.addEventListener('keydown', (e) => {
-        e.preventDefault();
+        if($(e.target).hasClass("search")){
+            runSearch();
+        }
         if (e.code === "ArrowUp" && !handledKeystroke){
+            e.preventDefault();
             if(selectedIndex == -1){
                 selectedIndex = reqs.length - 1;
                 selectReq(reqs.length-1);
@@ -50,22 +119,44 @@ function setupGUI(){
             }else{
                 if(selectedIndex != 0){
                     selectedIndex--;
-                    selectReq(selectedIndex);
-                    handledKeystroke = true;
+                    if(visibleIndicies.includes(selectedIndex)){
+                        selectReq(selectedIndex);
+                        handledKeystroke = true;
+                    }else{
+                        var temp = getNextValue(selectedIndex, false);
+                        if(temp != -1){
+                            selectedIndex = temp;
+                            selectReq(selectedIndex);
+                        }else{
+                            selectedIndex++;
+                        }
+                        handledKeystroke = true;
+                    }
                 }
             }
         }
         if (e.code === "ArrowDown" && !handledKeystroke){
+            e.preventDefault();
             if(selectedIndex == -1){
                 selectedIndex = 0;
                 selectReq(0);
                 handledKeystroke = true;
             }else{
                 if(selectedIndex < reqs.length-1){
-
                     selectedIndex++;
-                    selectReq(selectedIndex);
-                    handledKeystroke = true;
+                    if(visibleIndicies.includes(selectedIndex)){
+                        selectReq(selectedIndex);
+                        handledKeystroke = true;
+                    }else{
+                        var temp = getNextValue(selectedIndex, true);
+                        if(temp != -1){
+                            selectedIndex = temp;
+                            selectReq(selectedIndex);
+                        }else{
+                            selectedIndex--;
+                        }
+                        handledKeystroke = true;
+                    }
                 }
             }
         }
@@ -103,8 +194,6 @@ function selectReq(index){
     $(".inspector-title").attr("time", selectedReq.time);
     $(".inspector-title").attr("status", selectedReq.status);
     $("*[data]:not([round])").each(function(){
-        console.log("replace "+$(this).attr("data"))
-        console.log(getNested($(this).attr("data")).toString().toHtmlEntities())
         $(this).html(getNested($(this).attr("data")).toString().toHtmlEntities());
     });
     $("*[data][round]").each(function(){
@@ -159,6 +248,13 @@ function selectReq(index){
     });
 
     $("*[data-to]").each(function(){
+        if(typeof $(this).attr("require-value") !== 'undefined' && $(this).attr("require-value") !== false){
+            var components = $(this).attr("require-value").split("=");
+            var value = getNested(components[0]);
+            if(!new RegExp(components[1]).test(value)){
+                return;
+            }
+        }
         var components = $(this).attr("data-to").split("=");
         var value = getNested(components[1]);
         $(this).attr(components[0], value);

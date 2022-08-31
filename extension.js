@@ -61,6 +61,8 @@ function getWebviewContent(panel, context) {
 	const cssPath = vscode.Uri.joinPath(context.extensionUri, '/media/style.css');
 	const cssURI = panel.webview.asWebviewUri(cssPath);
 	
+	const codiconsUri = panel.webview.asWebviewUri(vscode.Uri.joinPath(context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+	
 	const jqPath = vscode.Uri.joinPath(context.extensionUri, '/media/jquery.min.js');
 	const jqUri = panel.webview.asWebviewUri(jqPath);
 	
@@ -86,6 +88,7 @@ function getWebviewContent(panel, context) {
 					<meta charset="UTF-8">
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
 					<link rel="stylesheet" href="${cssURI}">
+					<link href="${codiconsUri}" rel="stylesheet" />
 				</head>
 				<body>
 					<script src="${jqUri}"></script>
