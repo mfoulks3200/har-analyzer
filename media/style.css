@@ -12,13 +12,28 @@ body {
 
 .container.request-items {
     position: fixed;
-    top: 73px;
+    top: 71px;
     left: 0;
     bottom: 0;
     width: 50%;
     padding: 0;
     border-right: 1px solid var(--vscode-editorGroup-border);
     overflow-y: auto;
+    transition: top 0.25s ease;
+}
+
+<<<<<<< HEAD
+.container.request-inspector {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+}
+
+=======
+.container.request-items.expanded {
+    top: 98px;
 }
 
 .container.request-inspector {
@@ -29,6 +44,7 @@ body {
     width: 50%;
 }
 
+>>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 .request-item {
     width: 100%;
     padding: 10px;
@@ -264,7 +280,12 @@ table.stack {
     transition: opacity ease 0.2s, transform ease 0.2s;
 }
 
+<<<<<<< HEAD
 .json-block.tree {
+=======
+.code-block {
+    font-family: monospace;
+>>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
     padding: 10px;
     border-radius: 5px;
     word-break: break-all;
@@ -273,6 +294,7 @@ table.stack {
     border: 1px solid var(--vscode-editorGroup-border);
 }
 
+<<<<<<< HEAD
 .code-block {
     font-family: monospace;
     padding: 10px;
@@ -283,6 +305,8 @@ table.stack {
     border: 1px solid var(--vscode-editorGroup-border);
 }
 
+=======
+>>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 .code-block.formatted {
     white-space: pre;
 }
@@ -521,13 +545,27 @@ table.stack {
     outline: none ! important;
 }
 
+.expand-filters {
+    margin-left: auto;
+    margin-right: 10px;
+    opacity: 0.5;
+    transform: rotate(90deg);
+    transition: transform 0.25s ease;
+    user-select: none;
+    cursor: pointer;
+}
+
+.expand-filters.expanded {
+    transform: rotate(0deg);
+}
+
 .method-filters {
     display: flex;
     column-gap: 10px;
     padding-left: 14px;
     padding-top: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--vscode-editorGroup-border);
+    /*border-bottom: 1px solid var(--vscode-editorGroup-border);*/
     border-right: 1px solid var(--vscode-editorGroup-border);
     position: fixed;
     top: 35px;
@@ -596,6 +634,44 @@ table.stack {
 .method-filter.delete.selected {
     border: 1px solid var(--vscode-charts-red);
     background: var(--vscode-charts-red);
+    color: var(--vscode-editor-background);
+}
+
+.req-type-filters {
+    display: flex;
+    column-gap: 10px;
+    padding-left: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--vscode-editorGroup-border);
+    border-right: 1px solid var(--vscode-editorGroup-border);
+    position: fixed;
+    top: 35px;
+    width: 50%;
+    box-sizing: border-box;
+    background: var(--vscode-editor-background);
+    transition: top 0.25s ease;
+}
+
+.req-type-filters.expanded {
+    top: 62px;
+}
+
+.req-type-filter {
+    border: 1px solid var(--vscode-editor-foreground);
+    color: var(--vscode-editor-foreground);
+    font-size: 11px;
+    font-weight: 600;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 40px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.req-type-filter.selected {
+    border: 1px solid var(--vscode-charts-foreground);
+    background: var(--vscode-charts-foreground);
     color: var(--vscode-editor-background);
 }
 

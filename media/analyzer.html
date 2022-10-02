@@ -7,6 +7,19 @@
         <div class="method-filter put">PUT</div>
         <div class="method-filter delete">DELETE</div>
         <div class="method-filter patch">PATCH</div>
+        <div class="expand-filters">▼</div>
+    </div>
+    <div class="req-type-filters">
+        <div class="req-type-filter doc">DOC</div>
+        <div class="req-type-filter xhr">XHR</div>
+        <div class="req-type-filter ping">PING</div>
+        <div class="req-type-filter font">FONT</div>
+        <div class="req-type-filter img">IMG</div>
+        <div class="req-type-filter script">SCRIPT</div>
+        <div class="req-type-filter style">STYLE</div>
+        <!-- <div class="req-type-filter man">MAN</div>
+        <div class="req-type-filter other">OTHER</div>
+        <div class="req-type-filter pre">PRE</div> -->
     </div>
 </div>
 
@@ -32,6 +45,7 @@
             <div class="data-row" data="fullURL" keyName="Request URL">https://example.com/example/endpoint</div>
             <div class="data-row" data="referer" keyName="Referrer">https://google.com</div>
             <div class="data-row" data="obj.serverIPAddress" keyName="Remote Address">127.0.0.1</div>
+            <div class="data-row" data="obj._resourceType" keyName="Resource Type">document</div>
             <br />
             <div class="data-row" data="obj.startedDateTime" keyName="Timestamp">May 25th 2022, 23:34:14.312 GMT-4</div>
             <div class="data-row" data="obj.time" keyName="Duration">2m 34s 103ms</div>
@@ -71,8 +85,12 @@
             <div class="data-row" keyName="Mime Type" data="mimeType"></div>
             <div class="data-row" style="padding-bottom:10px;" keyName="Content Size"
                 require-data="obj.response.content.size" data="obj.response.content.size"></div>
+<<<<<<< HEAD
             <div class="code-block shorten" require-value="mimeType=text/*|application/(?!json)"></div>
             <div class="json-block tree" require-value="mimeType=application/json"></div>
+=======
+            <div class="code-block shorten" require-value="mimeType=text/*|application/*"></div>
+>>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
             <div class="subscript open-new-tab" require-value="mimeType=text/*|application/*">(double click to open in a
                 new tab)</div>
             <img class="img-preview" data-to="src=content" require-value="mimeType=image/*" />

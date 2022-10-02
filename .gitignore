@@ -2,3 +2,4 @@ node_modules
 .vscode-test/
 *.vsix
 localTest.har
+package-lock.json
