@@ -22,16 +22,6 @@ body {
     transition: top 0.25s ease;
 }
 
-<<<<<<< HEAD
-.container.request-inspector {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 50%;
-}
-
-=======
 .container.request-items.expanded {
     top: 98px;
 }
@@ -44,7 +34,6 @@ body {
     width: 50%;
 }
 
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 .request-item {
     width: 100%;
     padding: 10px;
@@ -280,21 +269,6 @@ table.stack {
     transition: opacity ease 0.2s, transform ease 0.2s;
 }
 
-<<<<<<< HEAD
-.json-block.tree {
-=======
-.code-block {
-    font-family: monospace;
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
-    padding: 10px;
-    border-radius: 5px;
-    word-break: break-all;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    border: 1px solid var(--vscode-editorGroup-border);
-}
-
-<<<<<<< HEAD
 .code-block {
     font-family: monospace;
     padding: 10px;
@@ -305,8 +279,6 @@ table.stack {
     border: 1px solid var(--vscode-editorGroup-border);
 }
 
-=======
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 .code-block.formatted {
     white-space: pre;
 }
@@ -680,56 +652,6 @@ table.stack {
     top: 14px;
     left: 14px;
     z-index: 99999;
-}
-
-.tree-label {
-    padding-bottom: 0px;
-    padding-left: 35px;
-}
-
-.tree-label:not([keyname]) {
-    font-weight: bold;
-    color: var(--vscode-editorLineNumber-foreground);
-    padding-left: 0px;
-    padding-bottom: 7px;
-}
-
-.tree-object.expanded>.tree-label:not([keyname])::before {
-    opacity: 0.5;
-    content: "▼";
-    user-select: none;
-    cursor: pointer;
-    width: 15px;
-    font-size: 9pt;
-    display: inline-block;
-    transform: rotate(0deg);
-    transform-origin: 6px 6px;
-    transition: transform 0.25s ease;
-}
-
-.tree-object:not(expanded)>.tree-label:not([keyname])::before {
-    content: "▼";
-    user-select: none;
-    cursor: pointer;
-    width: 15px;
-    font-size: 9pt;
-    display: inline-block;
-    transform: rotate(-90deg);
-    transform-origin: 6px 6px;
-    transition: transform 0.25s ease;
-}
-
-.tree-object:not(.expanded) div:not(.tree-label) {
-    display: none;
-}
-
-.tree-object div:not(.tree-label) {
-    padding-left: 15px;
-}
-
-.tree-label {
-    user-select: none;
-    cursor: pointer;
 }
 
 @keyframes load {

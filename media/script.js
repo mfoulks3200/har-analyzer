@@ -7,8 +7,6 @@ var handledKeystroke = false;
 var keystrokeTimeout = true;
 const vscode = acquireVsCodeApi();
 
-<<<<<<< HEAD
-=======
 function runSearchCriteria(reqItem, selectorType, selector, attrName, attrVal) {
     if ($(reqItem).attr(attrName) == attrVal && (!$(selectorType + selector).hasClass("selected") && ($(selectorType).hasClass("selected")))) {
         $(reqItem).hide();
@@ -17,7 +15,6 @@ function runSearchCriteria(reqItem, selectorType, selector, attrName, attrVal) {
     return false;
 }
 
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 function runSearch() {
     while (visibleIndicies.length > 0) {
         visibleIndicies.pop();
@@ -25,28 +22,6 @@ function runSearch() {
     var i = -1;
     $(".request-item").each(function () {
         i++;
-<<<<<<< HEAD
-        if ($(this).attr("type") == "GET" && (!$(".method-filter.get").hasClass("selected") && $(".method-filter").hasClass("selected"))) {
-            $(this).hide();
-            return;
-        }
-        if ($(this).attr("type") == "POST" && (!$(".method-filter.post").hasClass("selected") && $(".method-filter").hasClass("selected"))) {
-            $(this).hide();
-            return;
-        }
-        if ($(this).attr("type") == "PUT" && (!$(".method-filter.put").hasClass("selected") && $(".method-filter").hasClass("selected"))) {
-            $(this).hide();
-            return;
-        }
-        if ($(this).attr("type") == "DELETE" && (!$(".method-filter.delete").hasClass("selected") && $(".method-filter").hasClass("selected"))) {
-            $(this).hide();
-            return;
-        }
-        if ($(this).attr("type") == "PATCH" && (!$(".method-filter.patch").hasClass("selected") && $(".method-filter").hasClass("selected"))) {
-            $(this).hide();
-            return;
-        }
-=======
         if (runSearchCriteria(this, ".method-filter", ".get", "type", "GET")) { return; }
         if (runSearchCriteria(this, ".method-filter", ".post", "type", "POST")) { return; }
         if (runSearchCriteria(this, ".method-filter", ".put", "type", "PUT")) { return; }
@@ -64,7 +39,6 @@ function runSearch() {
         if (runSearchCriteria(this, ".req-type-filter", ".pre", "reqtype", "preflight")) { return; }
         if (runSearchCriteria(this, ".req-type-filter", ".other", "reqtype", "other")) { return; }
 
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
         if ($(".search").val().length > 0 && !$(this).attr("endpoint").includes($(".search").val())) {
             $(this).hide();
             return;
@@ -108,9 +82,6 @@ function setupGUI() {
         $(".page[name='" + $(this).attr("name") + "']").addClass("show");
     });
 
-<<<<<<< HEAD
-    $(".method-filter").off().on("click", function () {
-=======
     $(".expand-filters").off().on("click", function () {
         $(this).toggleClass("expanded");
         $(".req-type-filters").toggleClass("expanded");
@@ -119,7 +90,6 @@ function setupGUI() {
     });
 
     $(".method-filter,.req-type-filter").off().on("click", function () {
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
         $(this).toggleClass("selected");
         runSearch();
     });
@@ -229,7 +199,6 @@ function round(num, place) {
 function selectReq(index) {
     selectedIndex = index;
     selectedReq = reqs[index];
-    console.log(selectedReq)
     $(".request-item.selected").removeClass("selected");
     $(".request-item[index='" + index + "']").addClass("selected");
     $(".inspector-title").attr("type", selectedReq.method);
@@ -237,13 +206,7 @@ function selectReq(index) {
     $(".inspector-title").attr("time", selectedReq.time);
     $(".inspector-title").attr("status", selectedReq.status);
     $("*[data]:not([round])").each(function () {
-<<<<<<< HEAD
-        if ($(this).attr("data") != null) {
-            $(this).html(getNested($(this).attr("data")).toString().toHtmlEntities());
-        }
-=======
         $(this).html(getNested($(this).attr("data")).toString().toHtmlEntities());
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
     });
     $("*[data][round]").each(function () {
         $(this).html(round(getNested($(this).attr("data")), $(this).attr("round")));
@@ -326,31 +289,6 @@ function selectReq(index) {
         $(this).html(selectedReq.contentShort.toString().toHtmlEntities());
     });
 
-<<<<<<< HEAD
-
-
-    $(".json-block.tree").each(function () {
-        $(this).scrollTop(0);
-        if (!selectedReq.mimeType.includes("json")) {
-            return;
-        }
-        if (selectedReq.content == null) {
-            return;
-        }
-        var json = selectedReq.content.substring(0, 4) == ")]}'" ? selectedReq.content.substring(4) : selectedReq.content;
-        console.log(json);
-        console.log(selectedReq.content.substring(0, 4))
-        $(this).html("");
-        generateJSONTree(this, JSON.parse(json), "");
-        try {
-            //generateJSONTree(this, JSON.parse(json), "");
-        } catch {
-            $(this).html(json.toString().toHtmlEntities());
-        }
-    });
-
-=======
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
     $(".open-new-tab").off().on("dblclick", function () {
         vscode.postMessage({
             action: "openNewTab",
@@ -359,17 +297,6 @@ function selectReq(index) {
         });
     });
 
-<<<<<<< HEAD
-    try {
-        $(".stack").html("");
-        if (selectedReq.obj._initiator.type == "script") {
-            for (var i = 0; i < selectedReq.obj._initiator.stack.callFrames.length; i++) {
-                var frame = selectedReq.obj._initiator.stack.callFrames[i];
-                const re = new RegExp('(?:.+\/)([^\/?]+)', 'gm');
-                var URLMatch = re.exec(frame.url);
-                var file = URLMatch == null ? "" : URLMatch[1];
-                $(".stack").append(`<tr>
-=======
     $(".stack").html("");
     if (selectedReq.obj._initiator.type == "script") {
         for (var i = 0; i < selectedReq.obj._initiator.stack.callFrames.length; i++) {
@@ -378,47 +305,17 @@ function selectReq(index) {
             var URLMatch = re.exec(frame.url);
             var file = URLMatch == null ? "" : URLMatch[1];
             $(".stack").append(`<tr>
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
                 <td class="stack-frame-function">`+ (frame.functionName.length == 0 ? "(anonymous)" : frame.functionName) + `</td>
                 <td class="stack-frame-sID">`+ frame.scriptId + `</td>
                 <td class="stack-frame-location">(`+ frame.lineNumber + ":" + frame.columnNumber + `)</td>
                 <td class="stack-frame-file"><div>`+ file + `</div></td>
             </tr>`);
-            }
         }
-    } catch { }
+    }
 
     $(".request-inspector").addClass("ready");
 }
 
-<<<<<<< HEAD
-document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("tree-label")) {
-        e.target.parentElement.classList.toggle("expanded")
-    }
-});
-
-function generateJSONTree(element, object, previousPath) {
-    console.log("Enumerating " + previousPath)
-    console.log(object)
-    console.log(element)
-    Object.keys(object).forEach(function (obj) {
-        element.insertAdjacentHTML("beforeend", `<div class="tree-object" path="` + previousPath + "." + obj + `"></div>`);
-
-        var treeObject = document.querySelector(".tree-object[path='" + previousPath + "." + obj + "']");
-
-        if (typeof object[obj] == "object" && object != null && obj != null && object[obj] != null && Object.keys(object[obj]) != null && Object.keys(object[obj]).length > 0) {
-            treeObject.insertAdjacentHTML("beforeend", `<div class="tree-label" path="` + previousPath + "." + obj + `">` + obj + `</div>`);
-            generateJSONTree(treeObject, object[obj], previousPath + "." + obj)
-        } else {
-            treeObject.insertAdjacentHTML("beforeend", `<div class="tree-label data-row" path="` + previousPath + "." + obj + `" keyname="` + obj + `">` + object[obj] + `</div>`);
-            //treeObject.insertAdjacentHTML("beforeend", `<div class="tree-value">` + object[obj] + `</div>`);
-        }
-    });
-}
-
-=======
->>>>>>> 5bbfd43 (* Added resource type filters (Closes #1))
 function toggleBlockCollapse(block) {
     if (block.hasClass("collapsed")) {
         block.removeClass("collapsed");
