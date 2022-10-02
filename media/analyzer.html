@@ -1,6 +1,6 @@
 <div class="request-items container">
     <div class='codicon codicon-search'></div>
-    <input class="search" placeholder="Search endpoints..."/>
+    <input class="search" placeholder="Search endpoints..." />
     <div class="method-filters">
         <div class="method-filter get">GET</div>
         <div class="method-filter post">POST</div>
@@ -68,10 +68,13 @@
     <div class="page" name="Response">
         <div class="section" require-data="content">
             <div class="section-title">Content</div>
-            <div class="data-row"  keyName="Mime Type" data="mimeType"></div>
-            <div class="data-row"  style="padding-bottom:10px;" keyName="Content Size" require-data="obj.response.content.size" data="obj.response.content.size"></div>
-            <div class="code-block shorten" require-value="mimeType=text/*|application/*"></div>
-            <div class="subscript open-new-tab"  require-value="mimeType=text/*|application/*">(double click to open in a new tab)</div>
+            <div class="data-row" keyName="Mime Type" data="mimeType"></div>
+            <div class="data-row" style="padding-bottom:10px;" keyName="Content Size"
+                require-data="obj.response.content.size" data="obj.response.content.size"></div>
+            <div class="code-block shorten" require-value="mimeType=text/*|application/(?!json)"></div>
+            <div class="json-block tree" require-value="mimeType=application/json"></div>
+            <div class="subscript open-new-tab" require-value="mimeType=text/*|application/*">(double click to open in a
+                new tab)</div>
             <img class="img-preview" data-to="src=content" require-value="mimeType=image/*" />
         </div>
         <div class="section" require-data="obj.response.headers">
@@ -97,7 +100,7 @@
                     <div class="data-row" data="obj.timings.send" round="3" keyName="Send"></div>
                     <div class="data-row" data="obj.timings.ssl" round="3" keyName="SSL"></div>
                     <div class="data-row" data="obj.timings.wait" round="3" keyName="Wait"></div>
-                    <div class="data-row"  keyName="Total" round="3" data="obj.time"></div>
+                    <div class="data-row" keyName="Total" round="3" data="obj.time"></div>
                 </div>
                 <div class="inspector-timing-bars" totalTime="0">
                     <div class="data-bar" data="obj.timings._blocked_queueing" keyName="Queuing"></div>
@@ -119,7 +122,7 @@
             <div class="data-row" data="obj._initiator.type" keyName="Type"></div>
             <div class="data-row" data="obj._initiator.url" require-data="obj._initiator.url" keyName="URL"></div>
         </div>
-        
+
         <div class="section" require-data="obj._initiator.stack.callFrames">
             <div class="section-title">Stack</div>
             <table class="stack">
@@ -132,19 +135,19 @@
     </div>
 </div>
 
-    <div class="templates">
-        <div class="request-item" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">
-            <div class="method">POST</div>
-            <div class="endpoint">/example/endpoint</div>
-            <div class="time detail-item">902ms</div>
-            <div class="status detail-item"></div>
-        </div>
+<div class="templates">
+    <div class="request-item" type="POST" endpoint="/example/endpoint" time="902.234514" status="200">
+        <div class="method">POST</div>
+        <div class="endpoint">/example/endpoint</div>
+        <div class="time detail-item">902ms</div>
+        <div class="status detail-item"></div>
     </div>
+</div>
 </div>
 <script>
 
-    Array.prototype.sample = function(){
-        return this[Math.floor(Math.random()*this.length)];
+    Array.prototype.sample = function () {
+        return this[Math.floor(Math.random() * this.length)];
     }
 
     // var methods = ["POST", "GET", "PUT", "DELETE"];
@@ -163,6 +166,6 @@
     //     newItem.appendTo(".request-items");
     // }
 
-    
+
     setupGUI();
 </script>
