@@ -298,7 +298,7 @@ function selectReq(index) {
     });
 
     $(".stack").html("");
-    if (selectedReq.obj._initiator.type == "script") {
+    if (selectedReq.obj._initiator?.type == "script") {
         for (var i = 0; i < selectedReq.obj._initiator.stack.callFrames.length; i++) {
             var frame = selectedReq.obj._initiator.stack.callFrames[i];
             const re = new RegExp('(?:.+\/)([^\/?]+)', 'gm');
