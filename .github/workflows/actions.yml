@@ -13,5 +13,7 @@ jobs:
       - run: ls -lash
       - name: Install Deps
         run: npm install
+      - name: Install VSCE
+        run: npm i -g vsce
       - name: Package Extension
         run: vsce package
