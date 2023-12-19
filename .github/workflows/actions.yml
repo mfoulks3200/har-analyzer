@@ -5,6 +5,7 @@ jobs:
   Build-Extension:
     runs-on: ubuntu-latest
     steps:
+      - run: ls -lash
       - name: Install Deps
         run: npm install
       - name: Package Extension
